@@ -17,7 +17,7 @@ import java.awt.Color;
 import javax.swing.UIManager;
 import javax.swing.ImageIcon;
 
-public class IGUMenuVendedor extends JFrame {
+public class IGUMenuVendedor extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTable table;

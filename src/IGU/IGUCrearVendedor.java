@@ -23,15 +23,18 @@ public class IGUCrearVendedor extends JFrame {
 	private JLabel lblId;
 	private JLabel lblZona;
 	private JLabel lblTitulo;
-	private JTextField textId;
-	private JTextField text;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-	private JTextField textField_7;
-	private JTextField textField_8;
+	private JTextField tfId;
+	private JTextField tfNombre;
+	private JTextField tfApaterno;
+	private JTextField tfAmaterno;
+	private JTextField tfCurp;
+	private JTextField tfRfc;
+	private JTextField tfCorreo;
+	private JTextField tfTelefono;
+	private JTextField tfZona;
+	private JButton btnAceptar;
+	private JButton btnRegresar;
+	private JButton btnCancelar;
 
 	/**
 	 * Launch the application.
@@ -61,7 +64,7 @@ public class IGUCrearVendedor extends JFrame {
 		contentPane.setLayout(null);
 		
 		lblTitulo = new JLabel("Crear Vendedor");
-		lblTitulo.setBounds(374, 25, 76, 14);
+		lblTitulo.setBounds(374, 25, 100, 14);
 		contentPane.add(lblTitulo);
 		
 		lblId = new JLabel("ID");
@@ -89,10 +92,10 @@ public class IGUCrearVendedor extends JFrame {
 		contentPane.add(lblCurp);
 		
 		lblTelefono = new JLabel("Tel\u00E9fono");
-		lblTelefono.setBounds(142, 301, 46, 14);
+		lblTelefono.setBounds(142, 301, 69, 14);
 		contentPane.add(lblTelefono);
 		
-		JLabel lblZona = new JLabel("Zona");
+		lblZona = new JLabel("Zona");
 		lblZona.setBounds(142, 337, 46, 14);
 		contentPane.add(lblZona);
 		
@@ -100,69 +103,62 @@ public class IGUCrearVendedor extends JFrame {
 		lblCorreo.setBounds(142, 372, 46, 14);
 		contentPane.add(lblCorreo);
 		
-		textField = new JTextField();
-		textField.setBounds(241, 83, 86, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		tfId = new JTextField();
+		tfId.setBounds(241, 83, 89, 20);
+		contentPane.add(tfId);
+		tfId.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(241, 147, 209, 20);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
+		tfNombre = new JTextField();
+		tfNombre.setBounds(241, 147, 209, 20);
+		contentPane.add(tfNombre);
+		tfNombre.setColumns(10);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(241, 175, 209, 20);
-		contentPane.add(textField_2);
-		textField_2.setColumns(10);
+		tfApaterno = new JTextField();
+		tfApaterno.setBounds(241, 175, 209, 20);
+		contentPane.add(tfApaterno);
+		tfApaterno.setColumns(10);
 		
-		textField_3 = new JTextField();
-		textField_3.setBounds(241, 207, 209, 20);
-		contentPane.add(textField_3);
-		textField_3.setColumns(10);
+		tfAmaterno = new JTextField();
+		tfAmaterno.setBounds(241, 207, 209, 20);
+		contentPane.add(tfAmaterno);
+		tfAmaterno.setColumns(10);
 		
-		textField_4 = new JTextField();
-		textField_4.setBounds(241, 235, 209, 20);
-		contentPane.add(textField_4);
-		textField_4.setColumns(10);
+		tfRfc = new JTextField();
+		tfRfc.setBounds(241, 235, 209, 20);
+		contentPane.add(tfRfc);
+		tfRfc.setColumns(10);
 		
-		textField_5 = new JTextField();
-		textField_5.setBounds(241, 266, 209, 20);
-		contentPane.add(textField_5);
-		textField_5.setColumns(10);
+		tfCurp = new JTextField();
+		tfCurp.setBounds(241, 266, 209, 20);
+		contentPane.add(tfCurp);
+		tfCurp.setColumns(10);
 		
-		textField_6 = new JTextField();
-		textField_6.setBounds(241, 298, 209, 20);
-		contentPane.add(textField_6);
-		textField_6.setColumns(10);
+		tfTelefono = new JTextField();
+		tfTelefono.setBounds(241, 298, 209, 20);
+		contentPane.add(tfTelefono);
+		tfTelefono.setColumns(10);
 		
-		textField_7 = new JTextField();
-		textField_7.setBounds(241, 333, 209, 20);
-		contentPane.add(textField_7);
-		textField_7.setColumns(10);
+		tfZona = new JTextField();
+		tfZona.setBounds(241, 333, 209, 20);
+		contentPane.add(tfZona);
+		tfZona.setColumns(10);
 		
-		textField_8 = new JTextField();
-		textField_8.setBounds(241, 369, 209, 20);
-		contentPane.add(textField_8);
-		textField_8.setColumns(10);
+		tfCorreo = new JTextField();
+		tfCorreo.setBounds(241, 369, 209, 20);
+		contentPane.add(tfCorreo);
+		tfCorreo.setColumns(10);
 		
-		JButton btnNewButton = new JButton("Aceptar");
-		btnNewButton.setBounds(241, 414, 89, 23);
-		contentPane.add(btnNewButton);
+		btnAceptar = new JButton("Aceptar");
+		btnAceptar.setBounds(241, 414, 89, 23);
+		contentPane.add(btnAceptar);
 		
-		JButton btnNewButton_1 = new JButton("Regresar");
-		btnNewButton_1.setBounds(460, 414, 89, 23);
-		contentPane.add(btnNewButton_1);
+		btnRegresar = new JButton("Regresar");
+		btnRegresar.setBounds(460, 414, 89, 23);
+		contentPane.add(btnRegresar);
 		
-		JButton btnNewButton_2 = new JButton("Cancelar");
-		btnNewButton_2.setBounds(352, 414, 89, 23);
-		contentPane.add(btnNewButton_2);
-		
-		
-		
-		
-		
-		
-		
+		btnCancelar = new JButton("Cancelar");
+		btnCancelar.setBounds(352, 414, 89, 23);
+		contentPane.add(btnCancelar);
 		
 	}
 }
