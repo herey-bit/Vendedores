@@ -5,6 +5,13 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -17,9 +24,13 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
-public class IGUCrearVendedor extends JFrame implements ActionListener{
+import CONTROL.ControlEnlace;
+import DAO.DAOVendedor;
+import DTO.DTOVendedor;
 
-	//private JPanel contentPane;
+public class IGUBuscar extends JFrame implements ActionListener {
+
+	private JPanel contentPane;
 	private JLabel lblNombre;
 	private JLabel lblApaterno;
 	private JLabel lblAmaterno;
@@ -39,26 +50,17 @@ public class IGUCrearVendedor extends JFrame implements ActionListener{
 	private JTextField tfCorreo;
 	private JTextField tfTelefono;
 	private JTextField tfZona;
-	private JButton btnAceptar;
+	private JButton btnBuscar;
 	private JButton btnRegresar;
 	private JButton btnCancelar;
 	private DAOVendedor daoVendedor;
 	private ControlEnlace controlEnlace;
-	
-	
 
-	public ControlEnlace getControlEnlace() {
-		return controlEnlace;
-	}
-
-	public void setControlEnlace(ControlEnlace controlEnlace) {
-		this.controlEnlace = controlEnlace;
-	}
 
 	/**
 	 * Create the frame.
 	 */
-	public IGUCrearVendedor() {
+	public IGUBuscar() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		/*setBounds(100, 100, 843, 537);
 		contentPane = new JPanel();
@@ -151,9 +153,9 @@ public class IGUCrearVendedor extends JFrame implements ActionListener{
 		 add(tfCorreo);
 		tfCorreo.setColumns(10);
 		
-		btnAceptar = new JButton("Aceptar");
-		btnAceptar.setBounds(241, 414, 89, 23);
-		 add(btnAceptar);
+		btnBuscar = new JButton("Buscar");
+		btnBuscar.setBounds(241, 414, 89, 23);
+		 add(btnBuscar);
 		
 		btnRegresar = new JButton("Regresar");
 		btnRegresar.setBounds(460, 414, 89, 23);
@@ -164,8 +166,8 @@ public class IGUCrearVendedor extends JFrame implements ActionListener{
 		 add(btnCancelar);
 		
 		 btnCancelar.addActionListener(this);
-		 btnRegresar.addActionListener(this);
-		 btnAceptar.addActionListener(this);
+		 btnRegresar.addActionListener((ActionListener) this);
+		 btnBuscar.addActionListener((ActionListener) this);
 		 
 		
 		setSize(800, 502);
@@ -173,12 +175,25 @@ public class IGUCrearVendedor extends JFrame implements ActionListener{
 		setLocationRelativeTo(null);
 		setResizable(false);
 		getContentPane().setLayout(null);
-		
+	}
+	
+	public ControlEnlace getControlEnlace() {
+		return controlEnlace;
+	}
+
+	public void setControlEnlace(ControlEnlace controlEnlace) {
+		this.controlEnlace = controlEnlace;
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource()==btnAceptar) {
-			new DAOVendedor().registrarPersona(crear());}
+		if (e.getSource()==btnBuscar) {
+			DTOVendedor vendedor = new DAOVendedor().buscarPersona(buscar());
+			if (vendedor == null){
+				JOptionPane.showMessageDialog(null,"no existe el vendedor");
+			}else {
+				mostrarVendedor(vendedor);
+			}
+		}
 				
 		if(e.getSource()==btnRegresar) {
 			controlEnlace.mostrarMenuV();}
@@ -186,13 +201,27 @@ public class IGUCrearVendedor extends JFrame implements ActionListener{
 	}
 	
 	
-	public DTOVendedor crear() {
-		DTOVendedor vendedor;
-		vendedor = new DTOVendedor(tfNombre.getText(),tfApaterno.getText(),tfAmaterno.getText(),
-				Integer.parseInt(tfTelefono.getText()),tfCurp.getText(),tfRfc.getText(),tfCorreo.getText(),tfZona.getText());
-		return vendedor;
+	public Integer buscar() {
+
+		if (lblId.getText().equals("") || Integer.parseInt(lblId.getText()) < 0){
+			return null;
+		} else {
+			return Integer.parseInt(lblId.getText());
+		}
 	}
 	
+	public void mostrarVendedor(DTOVendedor vendedor){
+		tfId.setText(vendedor.getId().toString());
+		tfAmaterno.setText(vendedor.getApellidoMaterno());
+		tfApaterno.setText(vendedor.getApellidoPaterno());
+		tfZona.setText(vendedor.getZonaVenta());
+		tfNombre.setText(vendedor.getNombre());
+		tfCorreo.setText(vendedor.getCorreoElectronico());
+		tfCurp.setText(vendedor.getCurp());
+		tfRfc.setText(vendedor.getRfc());
+		tfTelefono.setText(vendedor.getTelefono().toString());
+
+	}
 	
-	
+
 }

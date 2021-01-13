@@ -5,10 +5,27 @@ public class DTOEmpleado {
 	private Integer id;
 	private String apellidoPaterno;
 	private String apellidoMaterno;
+	private String nombre;
 	private Integer telefono;
 	private String curp;
 	private String rfc;
 	private String correoElectronico;
+	
+	public DTOEmpleado(String apellidoPaterno, String apellidoMaterno, String nombre, Integer telefono, String curp,
+			String rfc, String correoElectronico) {
+		super();
+		this.apellidoPaterno = apellidoPaterno;
+		this.apellidoMaterno = apellidoMaterno;
+		this.nombre = nombre;
+		this.telefono = telefono;
+		this.curp = curp;
+		this.rfc = rfc;
+		this.correoElectronico = correoElectronico;
+	}
+	
+	public DTOEmpleado() {
+		
+	}
 	
 	public Integer getId() {
 		return id;
@@ -52,6 +69,12 @@ public class DTOEmpleado {
 	}
 	public void setCorreoElectronico(String correoElectronico) {
 		this.correoElectronico = correoElectronico;
+	}
+	public String getNombre() {
+		return nombre;
+	}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 	
 	
