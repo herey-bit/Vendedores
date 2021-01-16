@@ -1,13 +1,9 @@
 package IGU;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import javax.swing.*;
 
 import CONTROL.ControlEnlace;
 import DAO.DAOVendedor;
@@ -19,7 +15,6 @@ import javax.swing.JButton;
 
 public class IGUCrearVendedor extends JFrame implements ActionListener{
 
-	//private JPanel contentPane;
 	private JLabel lblNombre;
 	private JLabel lblApaterno;
 	private JLabel lblAmaterno;
@@ -27,10 +22,9 @@ public class IGUCrearVendedor extends JFrame implements ActionListener{
 	private JLabel lblRfc;
 	private JLabel lblTelefono;
 	private JLabel lblCorreo;
-	private JLabel lblId;
 	private JLabel lblZona;
 	private JLabel lblTitulo;
-	private JTextField tfId;
+	
 	private JTextField tfNombre;
 	private JTextField tfApaterno;
 	private JTextField tfAmaterno;
@@ -44,8 +38,14 @@ public class IGUCrearVendedor extends JFrame implements ActionListener{
 	private JButton btnCancelar;
 	private DAOVendedor daoVendedor;
 	private ControlEnlace controlEnlace;
-	
-	
+
+	public DAOVendedor getDaoVendedor() {
+		return daoVendedor;
+	}
+
+	public void setDaoVendedor(DAOVendedor daoVendedor) {
+		this.daoVendedor = daoVendedor;
+	}
 
 	public ControlEnlace getControlEnlace() {
 		return controlEnlace;
@@ -59,20 +59,10 @@ public class IGUCrearVendedor extends JFrame implements ActionListener{
 	 * Create the frame.
 	 */
 	public IGUCrearVendedor() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		/*setBounds(100, 100, 843, 537);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);*/
-		
+				
 		lblTitulo = new JLabel("Crear Vendedor");
 		lblTitulo.setBounds(374, 25, 100, 14);
 		add(lblTitulo);
-		
-		lblId = new JLabel("ID");
-		lblId.setBounds(196, 86, 46, 14);
-		add(lblId);
 		
 		lblNombre = new JLabel ("Nombre");
 		lblNombre.setBounds(142, 150, 100, 14);
@@ -105,11 +95,6 @@ public class IGUCrearVendedor extends JFrame implements ActionListener{
 		lblCorreo = new JLabel("Correo");
 		lblCorreo.setBounds(142, 372, 46, 14);
 		 add(lblCorreo);
-		
-		tfId = new JTextField();
-		tfId.setBounds(241, 83, 89, 20);
-		 add(tfId);
-		tfId.setColumns(10);
 		
 		tfNombre = new JTextField();
 		tfNombre.setBounds(241, 147, 209, 20);
@@ -166,7 +151,7 @@ public class IGUCrearVendedor extends JFrame implements ActionListener{
 		 btnCancelar.addActionListener(this);
 		 btnRegresar.addActionListener(this);
 		 btnAceptar.addActionListener(this);
-		 
+		 habilitar(true, false);
 		
 		setSize(800, 502);
 		setTitle("Crear Vendedor");
@@ -176,13 +161,28 @@ public class IGUCrearVendedor extends JFrame implements ActionListener{
 		
 	}
 	
+	public void habilitar(Boolean crear, Boolean botones){
+		btnAceptar.setEnabled(crear);
+		btnCancelar.setEnabled(botones);
+		btnRegresar.setEnabled(crear);
+	}
+	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()==btnAceptar) {
-			new DAOVendedor().registrarPersona(crear());}
+			controlEnlace.getDaoVendedor().registrarPersona(crear());
+
+		}
 				
 		if(e.getSource()==btnRegresar) {
-			controlEnlace.mostrarMenuV();}
+			limpiar();
+			habilitar(true,false);
+			controlEnlace.mostrarMenuV();
+		}
 		
+		if(e.getSource()==btnCancelar) {
+			limpiar();
+		}
+
 	}
 	
 	
@@ -192,6 +192,18 @@ public class IGUCrearVendedor extends JFrame implements ActionListener{
 				Integer.parseInt(tfTelefono.getText()),tfCurp.getText(),tfRfc.getText(),tfCorreo.getText(),tfZona.getText());
 		return vendedor;
 	}
+	
+	public void limpiar() {
+		tfAmaterno.setText("");
+		tfApaterno.setText("");
+		tfZona.setText("");
+		tfNombre.setText("");
+		tfCorreo.setText("");
+		tfCurp.setText("");
+		tfRfc.setText("");
+		tfTelefono.setText("");
+	}
+	
 	
 	
 	

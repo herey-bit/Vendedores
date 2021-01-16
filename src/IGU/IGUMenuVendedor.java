@@ -155,9 +155,10 @@ public class IGUMenuVendedor extends JFrame implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e) {
 		mostrarDatosUsandoLogica();
-		//JOptionPane.showMessageDialog(null, e.getSource().toString());
 		if(e.getSource() == btnCrear) {controlEnlace.mostrarCrearV();}
 		if(e.getSource() == btnBuscar) {controlEnlace.mostrarBuscarV();}
+		if(e.getSource() == btnEliminar) {controlEnlace.mostrarBorrarV();}
+		if(e.getSource() == btnActualizar) {controlEnlace.mostrarActualizarV();}
 	}
 	
 	private String[][] obtieneMariz() {
@@ -183,6 +184,7 @@ public class IGUMenuVendedor extends JFrame implements ActionListener {
 			informacion[x][6] = miLista.get(x).getZonaVenta() + "";
 			informacion[x][7] = miLista.get(x).getTelefono() + "";
 			informacion[x][8] = miLista.get(x).getCorreoElectronico() + "";
+			
 
 		}
 		return informacion;

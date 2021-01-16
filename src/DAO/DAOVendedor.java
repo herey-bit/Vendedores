@@ -4,19 +4,26 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.*;
-import java.sql.Statement;
+
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
-import javax.swing.JOptionPane;
+
+import CONTROL.ControlEnlace;
+
+
 
 import DTO.DTOVendedor;
 import Modelo.ModeloConexion;
 
 
 
+
+
 public class DAOVendedor {
+	
+	private ControlEnlace controlEnlace;
+	
 	public void registrarPersona(DTOVendedor vendedor)
 	{
 		ModeloConexion conex= new ModeloConexion();
@@ -38,15 +45,15 @@ public class DAOVendedor {
 		}
 	}
 	
-	public DTOVendedor buscarPersona(Integer codigo)
+	public DTOVendedor buscarPersona(String id)
 	{
 		ModeloConexion conex= new ModeloConexion();
 		DTOVendedor vendedor= new DTOVendedor();
 		boolean existe=false;
 		try {
 			//Statement estatuto = conex.getConnection().createStatement();
-			PreparedStatement consulta = conex.getConnection().prepareStatement("SELECT * FROM Vendedor where id = ? ");
-			consulta.setInt(1, codigo);
+			PreparedStatement consulta = conex.getConnection().prepareStatement("SELECT * FROM vendedor where id = "+id+";");
+			//consulta.setInt(1, codigo);
 			ResultSet rs = consulta.executeQuery();
 			while(rs.next()){
 				existe=true;
@@ -64,21 +71,26 @@ public class DAOVendedor {
 			conex.desconectar();
 					
 					
-			} catch (SQLException e) {
+			} catch (NumberFormatException e) {
+				JOptionPane.showMessageDialog(null,"Debe ingresar un dato numerico","Error",JOptionPane.ERROR_MESSAGE);
+				
+			}catch (SQLException e) {
 					JOptionPane.showMessageDialog(null, "Error, no se conecto");
 					System.out.println(e);
 			}
 		
 			if (existe) {
+				JOptionPane.showMessageDialog(null, vendedor.getId()+"");
 				return vendedor;
+			} else {
+				return null;				
 			}
-			else return null;				
 	}
 	
 	
 	public String sentencia (DTOVendedor vendedor) {
 		//INSERT INTO vendedor VALUES ('9997', 'pp', '555', '555', '55785456', '896', '6546', '56456', '5615');
-		String sentenciaSQL = "INSERT INTO vendedor VALUES(5555,";
+		String sentenciaSQL = "INSERT INTO vendedor VALUES(3333,";
 		sentenciaSQL += "'"+vendedor.getApellidoPaterno()+"','"+vendedor.getApellidoMaterno()+"','"+
 		vendedor.getNombre()+"','"+vendedor.getTelefono()+"','"+vendedor.getRfc()+"','"+
 				vendedor.getCurp()+"','"+vendedor.getZonaVenta()+"','"+vendedor.getCorreoElectronico()+"');";
@@ -120,6 +132,59 @@ public class DAOVendedor {
 		return miLista;
 	}
 	
+	
+	public void modificarPersona(DTOVendedor vendedor) {
+		
+		ModeloConexion conex= new ModeloConexion();
+		try{
+			String consulta="UPDATE vendedor SET id= ? , p = ? , a=? , n=? , telefono= ?, r = ? , e=? , f=?, c = ?  WHERE id= ? ";
+			PreparedStatement estatuto = conex.getConnection().prepareStatement(consulta);
+			estatuto.setInt(1,vendedor.getId());
+			estatuto.setString(2,vendedor.getApellidoPaterno());
+			estatuto.setString(3,vendedor.getApellidoMaterno());
+			estatuto.setString(4,vendedor.getNombre());
+			estatuto.setInt(5,vendedor.getTelefono());
+			estatuto.setString(6,vendedor.getRfc());
+			estatuto.setString(7,vendedor.getCurp());
+			estatuto.setString(8,vendedor.getZonaVenta());
+			estatuto.setString(9,vendedor.getCorreoElectronico());
+			estatuto.setInt(10,vendedor.getId());
+            estatuto.executeUpdate();
+
+          JOptionPane.showMessageDialog(null, " Se ha Modificado Correctamente ","Confirmaci�n",JOptionPane.INFORMATION_MESSAGE);
+         
+
+        }catch(SQLException	 e){
+
+            System.out.println(e);
+            JOptionPane.showMessageDialog(null, "Error al Modificar","Error",JOptionPane.ERROR_MESSAGE);
+
+        }
+	}
+	
+	public void eliminarPersona(String codigo)
+	{
+		ModeloConexion conex= new ModeloConexion();
+		try {
+			Statement estatuto = conex.getConnection().createStatement();
+			estatuto.executeUpdate("DELETE FROM vendedor WHERE id="+codigo+";");
+            JOptionPane.showMessageDialog(null, " Se ha Eliminado Correctamente","Informaci�n",JOptionPane.INFORMATION_MESSAGE);
+			estatuto.close();
+			conex.desconectar();
+			
+		} catch (SQLException e) {
+            System.out.println(e.getMessage());
+			JOptionPane.showMessageDialog(null, "No se Elimino");
+		}
+	}
+
+	public ControlEnlace getControlEnlace() {
+		return controlEnlace;
+	}
+
+	public void setControlEnlace(ControlEnlace controlEnlace) {
+		this.controlEnlace = controlEnlace;
+	}
 	
 	
 }

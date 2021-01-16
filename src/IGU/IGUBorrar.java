@@ -3,18 +3,20 @@ package IGU;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.*;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+import javax.swing.JTextField;
+
+
 import CONTROL.ControlEnlace;
 import DAO.DAOVendedor;
 import DTO.DTOVendedor;
 
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-
-
-public class IGUBuscar extends JFrame implements ActionListener {
+public class IGUBorrar extends JFrame implements ActionListener{
 
 	private JLabel lblNombre;
 	private JLabel lblApaterno;
@@ -36,19 +38,17 @@ public class IGUBuscar extends JFrame implements ActionListener {
 	private JTextField tfTelefono;
 	private JTextField tfZona;
 	private JButton btnBuscar;
+	private JButton btnBorrar;
 	private JButton btnRegresar;
 	private JButton btnCancelar;
-	
 	private DAOVendedor daoVendedor;
 	private ControlEnlace controlEnlace;
-
 
 	/**
 	 * Create the frame.
 	 */
-	public IGUBuscar() {
-		
-		lblTitulo = new JLabel("Buscar Vendedor");
+	public IGUBorrar() {
+		lblTitulo = new JLabel("Borrar Vendedor");
 		lblTitulo.setBounds(374, 25, 100, 14);
 		add(lblTitulo);
 		
@@ -145,27 +145,26 @@ public class IGUBuscar extends JFrame implements ActionListener {
 		btnCancelar.setBounds(352, 414, 89, 23);
 		 add(btnCancelar);
 		 
+		btnBorrar = new JButton("Borrar");
+		btnBorrar.setBounds(126, 414, 89, 23);
+		add(btnBorrar);
 		
 		 btnCancelar.addActionListener(this);
 		 btnRegresar.addActionListener(this);
 		 btnBuscar.addActionListener(this);
-		 
-		tfNombre.setEditable(false);
-			 tfApaterno.setEditable(false);
-			 tfAmaterno.setEditable(false);
-			 tfCurp.setEditable(false);
-			 tfRfc.setEditable(false);
-			 tfCorreo.setEditable(false);
-			 tfTelefono.setEditable(false);
-			 tfZona.setEditable(false);
-		 
+		 btnBorrar.addActionListener(this);
+		 btnBorrar.setEnabled(false);
+		 btnCancelar.setEnabled(false);
+		 habilitar(false,true);
 		setSize(800, 502);
-		setTitle("Buscar Vendedor");
+		setTitle("Borrar Vendedor");
 		setLocationRelativeTo(null);
 		setResizable(false);
-		getContentPane().setLayout(null);
+		setLayout(null);
+		
+		
 	}
-	
+
 	public DAOVendedor getDaoVendedor() {
 		return daoVendedor;
 	}
@@ -181,34 +180,55 @@ public class IGUBuscar extends JFrame implements ActionListener {
 	public void setControlEnlace(ControlEnlace controlEnlace) {
 		this.controlEnlace = controlEnlace;
 	}
-
+	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()==btnBuscar) {
-			DTOVendedor vendedor = daoVendedor.buscarPersona(tfId.getText()) ;
+			DTOVendedor vendedor = controlEnlace.getDaoVendedor().buscarPersona(tfId.getText());
 			if (vendedor == null){
 				JOptionPane.showMessageDialog(null,"no existe el vendedor");
 			}else {
 				mostrarVendedor(vendedor);
-				//tfId.setEditable(false);
+				btnBuscar.setEnabled(false);
+				btnBorrar.setEnabled(true);
 				btnCancelar.setEnabled(true);
 			}
 		}
 				
 		if(e.getSource()==btnRegresar) {
 			limpiar();
+			btnBuscar.setEnabled(true);
+			btnBorrar.setEnabled(false);
 			btnCancelar.setEnabled(false);
 			controlEnlace.mostrarMenuV();
-			
 		}
-		if(e.getSource()==btnCancelar) {
+
+		if (e.getSource()==btnCancelar){
 			limpiar();
 			btnCancelar.setEnabled(false);
+			btnBuscar.setEnabled(true);
+			btnBorrar.setEnabled(false);
+		}
+
+		if (e.getSource()==btnBorrar){
+			if (!tfId.getText().equals("")){
+				int respuesta = JOptionPane.showConfirmDialog(this,
+						"�Esta seguro de eliminar la Persona?", "Confirmaci�n",
+						JOptionPane.YES_NO_OPTION);
+				if (respuesta == JOptionPane.YES_NO_OPTION){
+					controlEnlace.getDaoVendedor().eliminarPersona(tfId.getText());
+					btnBuscar.setEnabled(true);
+					btnBorrar.setEnabled(false);
+					btnCancelar.setEnabled(false);
+					limpiar();
+				}
+			}else{
+				JOptionPane.showMessageDialog(null, "Ingrese un numero de Documento", "Informaci�n",JOptionPane.WARNING_MESSAGE);
+			}
+			
 		}
 		
 	}
-	
 	public void limpiar() {
-		tfId.setText("");
 		tfAmaterno.setText("");
 		tfApaterno.setText("");
 		tfZona.setText("");
@@ -218,7 +238,17 @@ public class IGUBuscar extends JFrame implements ActionListener {
 		tfRfc.setText("");
 		tfTelefono.setText("");
 	}
-	
+	public void habilitar(Boolean booleano, Boolean id) {
+		tfId.setEditable(id);
+		tfNombre.setEditable(booleano);
+		tfApaterno.setEditable(booleano);
+		tfAmaterno.setEditable(booleano);
+		tfCurp.setEditable(booleano);
+		tfRfc.setEditable(booleano);
+		tfCorreo.setEditable(booleano);
+		tfTelefono.setEditable(booleano);
+		tfZona.setEditable(booleano);
+	}
 	
 	
 	public void mostrarVendedor(DTOVendedor vendedor){
@@ -233,6 +263,4 @@ public class IGUBuscar extends JFrame implements ActionListener {
 		tfTelefono.setText(vendedor.getTelefono()+"");
 
 	}
-	
-
 }
